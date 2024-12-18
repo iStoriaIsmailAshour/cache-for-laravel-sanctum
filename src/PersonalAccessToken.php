@@ -20,7 +20,7 @@ class PersonalAccessToken extends Sanctum
      * @param string $token
      * @return static|null
      */
-    public static function findToken($token): ?static
+    public static function findToken(string $token): ?static
     {
         [$id, $token] = !str_contains($token, '|')
             ? [null, $token]
