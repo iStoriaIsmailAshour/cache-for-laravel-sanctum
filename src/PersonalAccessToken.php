@@ -28,7 +28,7 @@ class PersonalAccessToken extends Sanctum
         $hashedToken = hash('sha256', $token);
 
         $cachedToken = Cache::remember(
-            "personal-access-token:$hashedToken",
+            "istoria-access-token:$hashedToken",
             config('sanctum.cache.ttl') ?? self::$ttl,
             function () use ($token) {
                 return parent::findToken($token) ?? '_null_';
@@ -58,9 +58,9 @@ class PersonalAccessToken extends Sanctum
         });
 
         static::deleting(function (self $personalAccessToken) {
-            Cache::forget("personal-access-token:{$personalAccessToken->token}");
-            //            Cache::forget("personal-access-token:{$personalAccessToken->id}:last_used_at");
-            Cache::forget("personal-access-token:{$personalAccessToken->token}:tokenable");
+            Cache::forget("istoria-access-token:{$personalAccessToken->token}");
+            //            Cache::forget("istoria-access-token:{$personalAccessToken->id}:last_used_at");
+            Cache::forget("istoria-access-token:{$personalAccessToken->token}:tokenable");
         });
     }
 
@@ -77,7 +77,7 @@ class PersonalAccessToken extends Sanctum
     {
         return Attribute::make(
             get: fn ($value, $attributes) => Cache::remember(
-                "personal-access-token:{$attributes['token']}:tokenable",
+                "istoria-access-token:{$attributes['token']}:tokenable",
                 config('sanctum.cache.ttl') ?? self::$ttl,
                 function () {
                     return parent::tokenable()->first();
