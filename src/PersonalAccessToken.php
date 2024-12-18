@@ -22,7 +22,7 @@ class PersonalAccessToken extends Sanctum
      */
     public static function findToken($token): ?static
     {
-        [$id, $token] = ! str_contains($token, '|')
+        [$id, $token] = !str_contains($token, '|')
             ? [null, $token]
             : explode('|', $token, 2);
         $hashedToken = hash('sha256', $token);
@@ -35,7 +35,7 @@ class PersonalAccessToken extends Sanctum
             }
         );
 
-        if ($cachedToken === '_null_' || ! hash_equals($cachedToken->token, $hashedToken)) {
+        if ($cachedToken === '_null_' || !hash_equals($cachedToken->token, $hashedToken)) {
             return null;
         }
 
@@ -76,7 +76,7 @@ class PersonalAccessToken extends Sanctum
     public function tokenable(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => Cache::remember(
+            get: fn($value, $attributes) => Cache::remember(
                 "istoria-access-token:{$attributes['token']}:tokenable",
                 config('sanctum.cache.ttl') ?? self::$ttl,
                 function () {
